@@ -31,4 +31,29 @@ tavily_extract = TavilyExtract()
 tavily_map=TavilyMap(max_depth=5, max_breadth=20, max_pages=1000)
 tavily_crawl = TavilyCrawl()
 
-print('done')
+async def main():
+    """Main async function to orchestrate the entire process"""
+    log_header("DOCUMENTATION INGESTION PIPELINE")
+
+    log_info(
+        "   TavilyCrawl: Starting to crawl documentation from https://python.langchain.com/",
+        Colors.PURPLE,
+    )
+    # Crawl the documentation site
+
+    res = tavily_crawl.invoke(
+        {
+            'url': 'https://python.langchain.com/',
+            'max_depth': 5,
+            'extract_depth': 'advanced'
+        }
+    )
+    all_docs=res["results"]
+    log_success(
+        f"TavilyCrawl: Successfully Crawled {len(all_docs)} urls from documention site"
+    )
+
+
+
+if __name__=="__main__":
+    asyncio.run(main())
