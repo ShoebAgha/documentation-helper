@@ -13,7 +13,7 @@ from langchain_openai import OpenAIEmbeddings
 load_dotenv()
 
 # Initialize Embeddings same as Ingestion.py
-embeddings = OpenAIEmbeddings(model="text-embeddings-3-small")
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
 #initalize vectore store
 vectorestore = PineconeVectorStore(index_name="langchain-doc-index", embedding=embeddings)
@@ -60,7 +60,7 @@ def run_llm(query:str) -> Dict[str, Any]:
     agent = create_agent(model, tools=[retrieve_context], system_prompt=system_prompt)
 
     # Build message list
-    messages = [{"role":"user", "content":"query"}]
+    messages = [{"role":"user", "content":query}]
 
     #Invoke the agent
     response =  agent.invoke({'messages':messages})
